@@ -1,24 +1,19 @@
-"use client";
-
-import Link from "next/link";
+import Logo from "@/components/shared/Logo";
 
 import Container from "./Container";
-import Logo from "../shared/Logo";
-
-import { navigation } from "@/config/navigation";
+import DesktopNavigation from "./DesktopNavigation";
+import MobileNavigation from "./MobileNavigation";
 
 export default function Navbar() {
   return (
-    <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md">
       <Container>
-        <div className="flex h-16 items-center justify-between">
-
+        <div className="flex h-20 items-center justify-between">
           <Logo />
 
-          {/* Desktop Navigation */}
+          <DesktopNavigation />
 
-          {/* Mobile Navigation */}
-
+          <MobileNavigation />
         </div>
       </Container>
     </header>

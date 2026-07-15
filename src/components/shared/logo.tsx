@@ -1,18 +1,32 @@
 import Link from "next/link";
 import { GraduationCap } from "lucide-react";
 
-export default function Logo() {
+interface LogoProps {
+  showTagline?: boolean;
+}
+
+export default function Logo({
+  showTagline = true,
+}: LogoProps) {
   return (
-    <Link href="/" className="flex items-center gap-2">
-      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 text-white">
-        <GraduationCap className="h-5 w-5" />
+    <Link
+      href="/"
+      className="flex items-center gap-3 transition-opacity hover:opacity-90"
+    >
+      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-md">
+        <GraduationCap className="h-6 w-6" />
       </div>
 
       <div className="flex flex-col">
-        <span className="text-lg font-bold">KVS Skill Nexus</span>
-        <span className="text-xs text-muted-foreground">
-          Learn. Build. Connect. Grow.
+        <span className="text-lg font-bold tracking-tight">
+          KVS Skill Nexus
         </span>
+
+        {showTagline && (
+          <span className="text-xs text-muted-foreground">
+            Learn • Build • Connect • Grow
+          </span>
+        )}
       </div>
     </Link>
   );
