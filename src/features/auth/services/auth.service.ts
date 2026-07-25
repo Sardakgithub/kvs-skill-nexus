@@ -16,11 +16,12 @@ import type {
 export const authService = {
   async login({ email, password }: LoginCredentials) {
     try {
-      const credential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const credential =
+        await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
 
       return credential.user;
     } catch (error: any) {
@@ -36,7 +37,7 @@ export const authService = {
     let firebaseUser = null;
 
     try {
-      // Create Firebase account
+      // Step 1: Create Firebase account
       const credential =
         await createUserWithEmailAndPassword(
           auth,
@@ -46,7 +47,7 @@ export const authService = {
 
       firebaseUser = credential.user;
 
-      // Create MongoDB profile
+      // Step 2: Create User document
       await userService.createUser({
         firebaseUid: firebaseUser.uid,
         fullName,
@@ -54,9 +55,14 @@ export const authService = {
         role: "student",
       });
 
+      // Step 3: Create Student Profile
+      await userService.createStudentProfile(
+        firebaseUser.uid
+      );
+
       return firebaseUser;
     } catch (error: any) {
-      // Roll back Firebase account if MongoDB creation failed
+      // Roll back Firebase account if any step fails
       if (firebaseUser) {
         try {
           await deleteUser(firebaseUser);

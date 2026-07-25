@@ -24,6 +24,26 @@ export const userService = {
     return data;
   },
 
+  async createStudentProfile(firebaseUid: string) {
+    const response = await fetch("/api/student-profile", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        firebaseUid,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message);
+    }
+
+    return data.data;
+  },
+
   async getUsers() {
     const response = await fetch("/api/users");
 

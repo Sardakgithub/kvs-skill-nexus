@@ -6,6 +6,8 @@ if (!MONGODB_URI) {
   throw new Error("Please define the MONGODB_URI environment variable.");
 }
 
+const mongoUri: string = MONGODB_URI;
+
 declare global {
   // eslint-disable-next-line no-var
   var mongooseConnection:
@@ -29,11 +31,17 @@ export async function connectDB() {
   }
 
   if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI).then((mongooseInstance) => {
-      console.log("✅ MongoDB Connected");
-
-      return mongooseInstance;
-    });
+    cached.promise = mongoose
+      .connect(MONGODB_URI)
+      .then((mongooseInstance) => {
+        console.log("✅ MongoDB Connected");
+        return mongooseInstance;
+      })
+      .catch((err) => {
+        console.error("❌ MongoDB connection failed:");
+        console.error(err);
+        throw err;
+      });
   }
 
   cached.conn = await cached.promise;

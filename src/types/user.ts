@@ -1,8 +1,11 @@
-export interface User {
-  id: string;
+export interface UserProfile {
+  _id: string;
+  firebaseUid: string;
   fullName: string;
   email: string;
   role: "student" | "mentor" | "admin";
-  avatar?: string;
-  createdAt: Date;
+  profileImage: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
