@@ -17,10 +17,8 @@ export default function MobileNavigation() {
   return (
     <div className="lg:hidden">
       <Sheet>
-        <SheetTrigger asChild>
-          <Button variant="ghost" size="icon">
-            <Menu className="h-6 w-6" />
-          </Button>
+        <SheetTrigger>
+          <Menu className="h-6 w-6" />
         </SheetTrigger>
 
         <SheetContent side="right" className="w-80">

@@ -1,17 +1,23 @@
-import AppShell from "@/components/layout/AppShell";
+import { Hero } from "@/components/marketing/hero";
+import TrustedBy from "@/components/marketing/trusted-by/TrustedBy";
+import Features from "@/components/marketing/Features";
+import Roadmaps from "@/components/marketing/Roadmaps";
+import AIGuidance from "@/components/marketing/AIGuidance";
+import LearningPlatform from "@/components/marketing/LearningPlatform";
+import Mentors from "@/components/marketing/Mentors";
+import HowItWorks from "@/data/mock/how-it-works/HowItWorks";
 
 export default function HomePage() {
   return (
-    <section className="flex min-h-[80vh] items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-6xl font-bold">
-          KVS Skill Nexus
-        </h1>
-
-        <p className="mt-6 text-xl text-muted-foreground">
-          Learn. Build. Connect. Grow.
-        </p>
-      </div>
-    </section>
+    <>
+      <Hero />
+      <TrustedBy />
+      <Features />
+      <HowItWorks />
+      <Roadmaps />
+      <AIGuidance />
+      <LearningPlatform />
+      <Mentors />
+    </>
   );
 }
