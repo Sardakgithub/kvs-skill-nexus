@@ -11,15 +11,12 @@ import { useAuth } from "@/features/auth/hooks/use-auth";
 export default function DashboardPage() {
   const router = useRouter();
 
-  const { user, profile, loading } =
-    useAuthContext();
-
+  const { user, profile, loading } = useAuthContext();
   const { logout } = useAuth();
 
   async function handleLogout() {
     try {
       await logout();
-
       router.replace("/login");
     } catch (error) {
       console.error(error);
@@ -39,7 +36,7 @@ export default function DashboardPage() {
   return (
     <ProtectedRoute>
       <main className="min-h-screen bg-background p-8">
-        <div className="mx-auto max-w-5xl">
+        <div className="mx-auto max-w-6xl">
           <div className="mb-8 flex items-center justify-between">
             <div>
               <h1 className="text-4xl font-bold">
@@ -51,64 +48,87 @@ export default function DashboardPage() {
               </p>
             </div>
 
-            <Button
-              variant="destructive"
-              onClick={handleLogout}
-            >
-              Logout
-            </Button>
+            <div className="flex gap-3">
+              <Button
+                variant="outline"
+                onClick={() => router.push("/profile")}
+              >
+                My Profile
+              </Button>
+
+              <Button
+                variant="destructive"
+                onClick={handleLogout}
+              >
+                Logout
+              </Button>
+            </div>
           </div>
 
-          <div className="rounded-xl border p-6 shadow-sm">
-            <h2 className="mb-6 text-2xl font-semibold">
-              Account Information
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="rounded-xl border p-6 shadow-sm">
+              <h2 className="mb-4 text-xl font-semibold">
+                Account
+              </h2>
+
+              <div className="space-y-3">
+                <div>
+                  <strong>Name</strong>
+                  <p>{profile?.fullName}</p>
+                </div>
+
+                <div>
+                  <strong>Email</strong>
+                  <p>{profile?.email}</p>
+                </div>
+
+                <div>
+                  <strong>Role</strong>
+                  <p>{profile?.role}</p>
+                </div>
+
+                <div>
+                  <strong>Status</strong>
+                  <p>{profile?.isActive ? "Active" : "Inactive"}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-xl border p-6 shadow-sm">
+              <h2 className="mb-4 text-xl font-semibold">
+                Learning Progress
+              </h2>
+
+              <p className="text-muted-foreground">
+                Progress tracking will appear here in Sprint 18.
+              </p>
+            </div>
+
+            <div className="rounded-xl border p-6 shadow-sm">
+              <h2 className="mb-4 text-xl font-semibold">
+                Career Roadmap
+              </h2>
+
+              <p className="text-muted-foreground">
+                Roadmaps will be available in a later sprint.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-8 rounded-xl border p-6 shadow-sm">
+            <h2 className="mb-4 text-2xl font-semibold">
+              Firebase Information
             </h2>
 
-            <div className="space-y-4">
+            <div className="space-y-3">
               <div>
-                <strong>Name:</strong>
-
-                <p>{profile?.fullName}</p>
+                <strong>Firebase UID</strong>
+                <p className="break-all">{user?.uid}</p>
               </div>
 
               <div>
-                <strong>Email:</strong>
-
-                <p>{profile?.email}</p>
-              </div>
-
-              <div>
-                <strong>Role:</strong>
-
-                <p>{profile?.role}</p>
-              </div>
-
-              <div>
-                <strong>Status:</strong>
-
-                <p>
-                  {profile?.isActive
-                    ? "Active"
-                    : "Inactive"}
-                </p>
-              </div>
-
-              <div>
-                <strong>Firebase UID:</strong>
-
-                <p className="break-all">
-                  {user?.uid}
-                </p>
-              </div>
-
-              <div>
-                <strong>Email Verified:</strong>
-
-                <p>
-                  {user?.emailVerified
-                    ? "Yes"
-                    : "No"}
-                </p>
+                <strong>Email Verified</strong>
+                <p>{user?.emailVerified ? "Yes" : "No"}</p>
               </div>
             </div>
           </div>

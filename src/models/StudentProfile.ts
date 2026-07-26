@@ -26,6 +26,10 @@ export interface IStudentProfile
 
   roadmap: string;
 
+  currentPhase: number;
+
+  selectedCareerAt?: Date;
+
   progress: number;
 
   certificates: number;
@@ -84,6 +88,15 @@ const StudentProfileSchema =
       roadmap: {
         type: String,
         default: "",
+      },
+
+      currentPhase: {
+        type: Number,
+        default: 0,
+      },
+
+      selectedCareerAt: {
+        type: Date,
       },
 
       progress: {
