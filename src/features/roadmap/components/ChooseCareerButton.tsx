@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 
@@ -23,6 +24,7 @@ export default function ChooseCareerButton({
 
   async function handleChooseCareer() {
     if (!user) {
+      toast.error("Please login to continue.");
       return;
     }
 
@@ -34,13 +36,17 @@ export default function ChooseCareerButton({
         roadmap
       );
 
-      alert("Career selected successfully!");
+      toast.success(
+        "Career selected successfully!"
+      );
 
       router.push("/student/dashboard");
     } catch (error) {
       console.error(error);
 
-      alert("Unable to select career.");
+      toast.error(
+        "Unable to select career."
+      );
     } finally {
       setLoading(false);
     }
