@@ -1,19 +1,17 @@
-import { StudentDashboard } from "../types/dashboard";
+import { apiClient } from "@/lib/api";
 
-export const studentDashboardService = {
-  async getDashboard(firebaseUid: string): Promise<StudentDashboard> {
-    const response = await fetch("/api/student/dashboard", {
-      headers: {
-        "x-firebase-uid": firebaseUid,
-      },
-    });
+import type { StudentDashboard } from "../types/dashboard";
 
-    const data = await response.json();
+class StudentDashboardService {
+  async getDashboard(
+    firebaseUid: string
+  ): Promise<StudentDashboard> {
+    return apiClient.get<StudentDashboard>(
+      "/api/student/dashboard",
+      firebaseUid
+    );
+  }
+}
 
-    if (!response.ok) {
-      throw new Error(data.message);
-    }
-
-    return data.data as StudentDashboard;
-  },
-};
+export const studentDashboardService =
+  new StudentDashboardService();

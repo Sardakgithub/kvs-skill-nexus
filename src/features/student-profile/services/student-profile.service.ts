@@ -1,3 +1,5 @@
+import { apiClient } from "@/lib/api";
+
 export interface StudentProfile {
   _id: string;
   userId: string;
@@ -24,69 +26,40 @@ export interface StudentProfile {
   updatedAt: string;
 }
 
-export const studentProfileService = {
-  async getProfile(firebaseUid: string) {
-    const response = await fetch("/api/student-profile/me", {
-      headers: {
-        "x-firebase-uid": firebaseUid,
-      },
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message);
-    }
-
-    return data.data as StudentProfile;
-  },
+class StudentProfileService {
+  async getProfile(
+    firebaseUid: string
+  ): Promise<StudentProfile> {
+    return apiClient.get<StudentProfile>(
+      "/api/student-profile/me",
+      firebaseUid
+    );
+  }
 
   async updateProfile(
     firebaseUid: string,
     payload: Partial<StudentProfile>
-  ) {
-    const response = await fetch("/api/student-profile/me", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "x-firebase-uid": firebaseUid,
-      },
-      body: JSON.stringify(payload),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message);
-    }
-
-    return data.data as StudentProfile;
-  },
+  ): Promise<StudentProfile> {
+    return apiClient.put<StudentProfile>(
+      "/api/student-profile/me",
+      payload,
+      firebaseUid
+    );
+  }
 
   async selectCareer(
     firebaseUid: string,
     roadmap: string
-  ) {
-    const response = await fetch(
+  ): Promise<StudentProfile> {
+    return apiClient.post<StudentProfile>(
       "/api/student-profile/select-career",
       {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          firebaseUid,
-          roadmap,
-        }),
+        firebaseUid,
+        roadmap,
       }
     );
+  }
+}
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message);
-    }
-
-    return data.data as StudentProfile;
-  },
-};
+export const studentProfileService =
+  new StudentProfileService();
