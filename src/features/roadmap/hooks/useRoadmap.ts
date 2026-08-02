@@ -1,39 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+
 import { roadmapService } from "../services/roadmap.service";
-import { CareerRoadmap } from "../types/roadmap";
+import type { CareerRoadmap } from "../types/roadmap";
 
-export function useRoadmap(slug: string) {
-  const [roadmap, setRoadmap] = useState<CareerRoadmap | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+export function useRoadmap(slug?: string) {
+  return useQuery<CareerRoadmap>({
+    queryKey: ["roadmap", slug],
 
-  useEffect(() => {
-    async function loadRoadmap() {
-      try {
-        setLoading(true);
+    queryFn: () =>
+      roadmapService.getBySlug(slug!),
 
-        const data = await roadmapService.getBySlug(slug);
+    enabled: !!slug,
 
-        setRoadmap(data);
-        setError("");
-      } catch (err) {
-        console.error(err);
-        setError("Unable to load roadmap.");
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    if (slug) {
-      loadRoadmap();
-    }
-  }, [slug]);
-
-  return {
-    roadmap,
-    loading,
-    error,
-  };
+    staleTime: 1000 * 60 * 10,
+  });
 }
